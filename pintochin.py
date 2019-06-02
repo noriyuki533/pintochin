@@ -1,12 +1,18 @@
 import re
 
+NUMPIN_PINYIN_DICT = {
+    "a1":u"01ce",
+}
+
 def convert_numpin_to_regpin(numpin_text: str) -> str:
     converted_text = numpin_text
     numpin_iter = re.finditer(".\d", converted_text)
+    numpin_iter_set = set([i.group() for i in list(numpin_iter)])
+    print(numpin_iter_set)
     
-    for match in numpin_iter:
-        converted_char = "({})".format(match.group())
-        converted_text = converted_text[match.start():match.end()]
+    for numpin in numpin_iter_set:
+        converted_char = "({})".format(numpin)
+        converted_text = re.sub(numpin, converted_char, converted_text)
     
     return converted_text
 
